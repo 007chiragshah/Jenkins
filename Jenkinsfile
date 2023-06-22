@@ -10,22 +10,20 @@ pipeline{
             }
             
         }
-        stage("Run a command"){
+        stage("Build"){
             steps{
-                sh 'pwd'
+                sh "maven package"
             }
             
         }
-        stage("C"){
+        stage("Deploy on Test"){
             steps{
-                sh '''pwd
-                    ls
-                    date
-                    cal'''
+                //Deploying on test
+                deploy adapters: [tomcat9(credentialsId: 'tomcatserverdetails1', path: '', url: 'http://10.1.255.128:80')], contextPath: '/app', war: '**/*.war'
             }
             
         }
-        stage("D"){
+        stage("Deploy on Prod"){
             steps{
                 echo "========executing A========"
             }
